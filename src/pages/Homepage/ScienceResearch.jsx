@@ -106,18 +106,6 @@ const ScienceResearch = () => {
                         ></div>
                       </div>
                     </div>
-
-                    <div>
-                      <h4 className="font-bold text-gray-900 mb-1">
-                        After B9Concept
-                      </h4>
-                      <div className="w-full bg-gray-200 rounded-full h-2.5">
-                        <div
-                          className="bg-gradient-to-r from-indigo-500 to-purple-600 h-2.5 rounded-full"
-                          style={{ width: "78%" }}
-                        ></div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

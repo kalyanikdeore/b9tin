@@ -1,101 +1,76 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
 
-const Testimonials = () => {
+const Testimonialssection = () => {
   const testimonials = [
     {
-      id: 1,
-      name: "Sarah K., Executive",
-      role: "Former Chronic Migraine Sufferer",
-      content:
-        "After 15 years of failed treatments, B9Concept resolved my migraines in weeks. I've been pain-free for 8 months now - something no medication could achieve.",
+      quote:
+        "This service completely changed my life. I've never been happier!",
       rating: 5,
-      image:
-        "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      name: "Sarah Johnson",
+      role: "Marketing Director",
     },
     {
-      id: 2,
-      name: "Michael T., Athlete",
-      role: "Recovered from Sports Injury",
-      content:
-        "The chronic pain from my old injury vanished after addressing the trauma connection. My performance has surpassed pre-injury levels.",
-      rating: 5,
-      image:
-        "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-    },
-    {
-      id: 3,
-      name: "Dr. Lisa M., Physician",
-      role: "Healthcare Professional",
-      content:
-        "As a doctor, I was skeptical but the science behind B9Concept is sound. It's transformed how I approach patient care by addressing root causes.",
+      quote: "Incredible results in just a few weeks. Highly recommended!",
       rating: 4,
-      image:
-        "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      name: "Michael Chen",
+      role: "Software Engineer",
+    },
+    {
+      quote: "The team was professional and delivered beyond expectations.",
+      rating: 5,
+      name: "David Wilson",
+      role: "Small Business Owner",
     },
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <span className="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-semibold px-4 py-1 rounded-full mb-4">
-            Real Transformations
+        <div className="text-center mb-16">
+          <span className="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            Success
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Lives Changed by B9Concept
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Transforming Lives Every Day
           </h2>
-          <div className="max-w-3xl mx-auto">
-            <p className="text-lg text-gray-600">
-              Don't take our word for it - hear from those who've experienced
-              the breakthrough
-            </p>
-          </div>
-        </motion.div>
+          <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 mx-auto mb-6"></div>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
-              key={testimonial.id}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
-              initial={{ opacity: 0, y: 30 }}
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
+              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
             >
-              <div className="relative h-48 mb-6 rounded-lg overflow-hidden">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-              </div>
-              <div className="flex items-center mb-4">
+              <div className="flex mb-4">
                 {[...Array(5)].map((_, i) => (
-                  <Star
+                  <svg
                     key={i}
                     className={`w-5 h-5 ${
                       i < testimonial.rating
-                        ? "fill-yellow-400 text-yellow-400"
+                        ? "text-yellow-400"
                         : "text-gray-300"
                     }`}
-                  />
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
                 ))}
               </div>
-              <Quote className="w-8 h-8 text-indigo-500 mb-4" />
-              <p className="text-gray-600 italic mb-6">{testimonial.content}</p>
-              <div>
-                <p className="font-bold text-gray-900">{testimonial.name}</p>
-                <p className="text-sm text-gray-500">{testimonial.role}</p>
+              <p className="text-gray-600 italic mb-6">"{testimonial.quote}"</p>
+              <div className="flex items-center">
+                <div className="bg-indigo-100 w-10 h-10 rounded-full flex items-center justify-center text-indigo-600 font-bold mr-3">
+                  {testimonial.name.charAt(0)}
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900">{testimonial.name}</p>
+                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -105,4 +80,4 @@ const Testimonials = () => {
   );
 };
 
-export default Testimonials;
+export default Testimonialssection;

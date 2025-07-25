@@ -8,8 +8,11 @@ import MeetTheTeam from "./MeetTheTeam";
 import VisionMission from "./VisionMssion";
 import OurLocations from "./OurLocations";
 import ValuesSection from "./ValuesSection";
-import WhyChooseUs from "./WhyChooseUs";
-
+// import WhyChooseUs from "./WhyChooseUs";
+import AboutCta from "./AboutCta";
+import AboutPage from "./AboutPage";
+import Researchsection from "./Researchsection";
+import Aboutherosection from "./Aboutherosection";
 // FAQ Accordion Component
 const FAQAccordion = ({ faq }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -131,12 +134,16 @@ const AboutCompany = () => {
 // Main Component
 const LabTestingCenter = () => {
   return (
-    <div className="flex flex-col items-center px-6 md:px-20 py-8">
-      <AboutCompany />
+    <div className="">
+      <Aboutherosection />
+      <AboutPage />
+      {/* <AboutCompany /> */}
       <VisionMission />
       <MeetTheTeam />
-      <ValuesSection />
-      <WhyChooseUs />
+      <Researchsection />
+      {/* <ValuesSection /> */}
+      {/* <WhyChooseUs /> */}
+      <AboutCta />
     </div>
   );
 };

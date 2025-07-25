@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import bnine1 from "../../assets/Images/bnine1.mp4";
-import bnine2 from "../../assets/Images/bnine2.mp4";
 
 const ProcessResilience = () => {
   const [loading, setLoading] = useState(true);
@@ -26,7 +24,7 @@ const ProcessResilience = () => {
         setContent({
           title: data.title,
           description: data.description,
-          videos: videos,
+          videos: videos.length > 0 ? videos : data.videos,
         });
       } catch (error) {
         console.error("Error fetching content:", error);
@@ -52,24 +50,8 @@ const ProcessResilience = () => {
       <p className="max-w-3xl mx-auto text-sm md:text-base text-gray-800 mb-10 leading-relaxed">
         {content.description}
       </p>
-      <div className="flex flex-col justify-center gap-6 p-4">
-        <video
-          controls
-          className="w-full md:w-2/3 mx-auto rounded-md shadow-lg"
-        >
-          <source src={bnine1} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
 
-        <video
-          controls
-          className="w-full md:w-2/3 mx-auto rounded-md shadow-lg"
-        >
-          <source src={bnine2} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      {/* <div className="flex flex-col justify-center gap-6 p-4">
+      <div className="flex flex-col justify-center gap-6 p-4">
         {content.videos.length > 0 ? (
           content.videos.map((video, index) => (
             <video
@@ -84,7 +66,7 @@ const ProcessResilience = () => {
         ) : (
           <p className="text-gray-500">No videos available</p>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

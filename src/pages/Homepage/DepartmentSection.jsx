@@ -69,13 +69,6 @@ export default function DepartmentSection() {
           <div className="md:w-1/2 text-left">
             <h1 className="text-2xl font-semibold">{selectedDept.title}</h1>
             <p className="my-2">{selectedDept.content}</p>
-            {/* <ul className="list-disc list-inside text-lh">
-              <li>Qualified Doctors</li>
-              <li>24x7 Emergency Services</li>
-              <li>General Medical</li>
-              <li>Feel like Home Services</li>
-              <li>Qualified Doctors</li>
-            </ul> */}
           </div>
           <div className="md:w-1/2 mt-4 md:mt-0">
             <img

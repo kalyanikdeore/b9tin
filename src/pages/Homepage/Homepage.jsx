@@ -161,7 +161,7 @@ import WhyB9Concept from "./WhyB9Concept";
 function Homepage() {
   return (
     <div>
-      <HeroSection />
+      {/* <HeroSection /> */}
       <Aboutb9 />
       <WhyB9Concept />
       {/* <PopupModal /> */}

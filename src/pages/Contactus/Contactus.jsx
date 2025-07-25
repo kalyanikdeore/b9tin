@@ -1,19 +1,41 @@
-import React from "react";
-import { Input, Button, Form, Card } from "antd";
-import {
-  IoCallOutline,
-  IoMailOpenOutline,
-  IoLocationOutline,
-  IoTimeOutline,
-} from "react-icons/io5";
+import React, { useState } from "react";
+import { Input, Button, Form, Card, message } from "antd";
 import { motion } from "framer-motion";
-import BookAppointments from "./bookAppointments";
 
 const { TextArea } = Input;
 
 const Contact = () => {
-  const onFinish = (values) => {
-    console.log("Form Values:", values);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
+  const onFinish = async (values) => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:8000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-CSRF-TOKEN": document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute("content"),
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        message.success(data.message);
+        form.resetFields();
+      } else {
+        throw new Error(data.message || "Failed to submit form");
+      }
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -27,9 +49,8 @@ const Contact = () => {
         Contact Us
       </h1>
 
-      {/* Row 1 - Two Columns (Map & Form) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Column 1 - Google Map */}
+        {/* Google Map */}
         <motion.iframe
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -41,24 +62,25 @@ const Contact = () => {
           loading="lazy"
         />
 
-        {/* Column 2 - Contact Form */}
+        {/* Contact Form */}
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
           <Card className="shadow-lg p-6">
-            <Form onFinish={onFinish} layout="vertical">
+            <Form form={form} onFinish={onFinish} layout="vertical">
               <Form.Item
                 name="name"
-                label="Name"
+                label="Full Name"
                 rules={[{ required: true, message: "Please enter your name!" }]}
               >
-                <Input placeholder="Enter your name" />
+                <Input placeholder="Your name" />
               </Form.Item>
+
               <Form.Item
                 name="email"
-                label="Email"
+                label="Email Address"
                 rules={[
                   {
                     required: true,
@@ -67,63 +89,43 @@ const Contact = () => {
                   },
                 ]}
               >
-                <Input placeholder="Enter your email" />
+                <Input placeholder="your.email@example.com" />
               </Form.Item>
+
               <Form.Item
                 name="message"
-                label="Message"
+                label="Your Message"
                 rules={[
-                  { required: true, message: "Please enter your message!" },
+                  {
+                    required: true,
+                    message: "Please enter your message!",
+                    min: 10,
+                  },
                 ]}
               >
-                <TextArea rows={4} placeholder="Write your message here..." />
+                <TextArea
+                  rows={4}
+                  placeholder="How can we help you?"
+                  showCount
+                  maxLength={500}
+                />
               </Form.Item>
-              <div className="flex justify-between mt-4">
+
+              <Form.Item>
                 <Button
-                  className="w-full font-bold sm:w-auto"
                   type="primary"
                   htmlType="submit"
+                  loading={loading}
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  size="large"
                 >
-                  Submit
+                  Send Message
                 </Button>
-              </div>
+              </Form.Item>
             </Form>
           </Card>
         </motion.div>
       </div>
-
-      {/* Row 2 - Contact Info Boxes */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 text-center py-10 gap-6 mt-8">
-        {[
-          { icon: <IoCallOutline />, text: "+91 9403455116" },
-          { icon: <IoMailOpenOutline />, text: "b9concept123@gmail.com" },
-          {
-            icon: <IoLocationOutline />,
-            text: "123 Greenway Street, EcoCity, Earth.",
-          },
-          {
-            icon: <IoTimeOutline />,
-            text: "Monday - Saturday\nSunday - Closed",
-          },
-        ].map((item, index) => (
-          <motion.div
-            key={index}
-            whileHover={{ scale: 1.05 }}
-            className="flex flex-col items-center justify-center p-6 bg-white shadow-md hover:bg-gray-50 transition-all w-full h-[200px] rounded-lg"
-          >
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center text-indigo-900 text-xl sm:text-2xl border-2 border-[#a89899] rounded-full cursor-pointer transition-all duration-300 hover:shadow-[0_0_10px] hover:shadow-gray-500 hover:text-gray-500"
-            >
-              {item.icon}
-            </motion.div>
-            <span className="text-gray-700 mt-4 text-center whitespace-pre-wrap">
-              {item.text}
-            </span>
-          </motion.div>
-        ))}
-      </div>
-      <BookAppointments />
     </motion.div>
   );
 };

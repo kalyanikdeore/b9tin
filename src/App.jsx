@@ -40,7 +40,7 @@ import QuestionnairePage from "./pages/Appointment/QuestionnairePage";
 import UDashboard from "./pages/Dashboard/UDashboard";
 import Clientlisting from "./pages/ManageClient/Clientlisting";
 import BlogDetailsPage from "./pages/Blog/BlogDetailsPage";
-import AboutPage from "./pages/Aboutus/AboutPage";
+// import AboutPage from "./pages/Aboutus/AboutPage";
 import ChronicHealth from "./pages/Homepage/Assessment";
 import WhyConditions from "./pages/Homepage/WhyConditions";
 import TreatmentLimitations from "./pages/Homepage/TreatmentLimitations";
@@ -83,7 +83,8 @@ function App() {
           />
 
           <Route path="/chronic-health" element={<ChronicHealth />} />
-          <Route path="aboutus" element={<AboutPage />} />
+          {/* <Route path="aboutus" element={<AboutPage />} /> */}
+          <Route path="/aboutus" element={<Aboutus />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogDetailsPage />} />
           <Route path="achievement" element={<Achivement />} />

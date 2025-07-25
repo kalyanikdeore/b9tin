@@ -3,10 +3,12 @@ import { Card, Row, Col, Button, Upload } from "antd";
 import { UploadOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import AwardAchievement from "./AwardAchievement";
-import MediaFeatures from "./MediaFeatures";
+// import MediaFeatures from "./MediaFeatures";
 import CommunityImpact from "./CommunityImpact";
 import CallToAction from "./CallToAction";
+
 import axios from "axios";
+import HealthResilienceSection from "./HealthResilienceSection";
 
 const ProjectsSection = () => {
   const [stories, setStories] = useState([]);
@@ -127,7 +129,8 @@ const ProjectsSection = () => {
           ))}
         </Row>
       )}
-      <MediaFeatures />
+      {/* <MediaFeatures /> */}
+      <HealthResilienceSection />
       <CommunityImpact />
       <AwardAchievement />
     </motion.div>
