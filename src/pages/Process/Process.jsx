@@ -17,30 +17,35 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Make sure this URL matches your route exactly
         const response = await fetch(
-          "http://localhost:8000/api/nature-therapy",
+          "http://localhost:8000/api/nature-therapies",
           {
-            headers: {
-              Accept: "application/json",
-            },
+            headers: { Accept: "application/json" },
           }
         );
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(
+            errorData.message || `HTTP error! status: ${response.status}`
+          );
         }
 
         const data = await response.json();
 
-        if (data.success) {
-          setTherapyData(data.data);
+        if (data.success && data.data.length > 0) {
+          setTherapyData(data.data[0]);
         } else {
           throw new Error(data.message || "No data available");
         }
       } catch (err) {
         setError(err.message);
         console.error("Fetch error:", err);
+
+        // If it's a 403 error, show specific message
+        if (err.message.includes("403")) {
+          setError("Access forbidden. Please check your permissions.");
+        }
       } finally {
         setLoading(false);
       }
@@ -59,8 +64,17 @@ const HeroSection = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-130 text-red-500">
-        Error: {error}
+      <div className="flex items-center justify-center h-130">
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+          <p className="font-bold">Error</p>
+          <p>{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -68,7 +82,9 @@ const HeroSection = () => {
   if (!therapyData) {
     return (
       <div className="flex items-center justify-center h-130">
-        No data available
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
+          <p>No data available</p>
+        </div>
       </div>
     );
   }
@@ -80,7 +96,7 @@ const HeroSection = () => {
         backgroundImage: `url('${therapyData.background_image_url}')`,
       }}
     >
-      <div className="bg-black bg-opacity-50 w-full h-full absolute top-0 left-0"></div>
+      <div className=" bg-opacity-50 w-full h-full absolute top-0 left-0"></div>
       <div className="relative text-center text-white z-10 px-4">
         <motion.h1
           className="text-4xl md:text-5xl mb-6 font-bold"

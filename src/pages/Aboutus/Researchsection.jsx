@@ -1,25 +1,63 @@
 import { BookOpen, Award as AwardIcon } from "lucide-react";
 import { motion } from "framer-motion";
-
-const aboutData = {
-  research: {
-    title: "Backed by Science",
-    description:
-      "Our approach is grounded in the latest research from neuroscience, psychoneuroimmunology, and trauma therapy. We've published multiple peer-reviewed studies demonstrating the effectiveness of our methodology.",
-    icon: <BookOpen className="w-8 h-8" />,
-  },
-  recognition: {
-    title: "Recognition & Awards",
-    icon: <AwardIcon className="w-8 h-8" />,
-    items: [
-      "2023 Innovation in Health Award",
-      "Published in Journal of Trauma & Health",
-      "Featured in Health Innovation Summit",
-    ],
-  },
-};
+import { useEffect, useState } from "react";
 
 const ResearchSection = () => {
+  const [researchData, setResearchData] = useState(null);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/api/research-section"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch research data");
+        }
+        const data = await response.json();
+        setResearchData(data.data.section);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-16 md:py-24 bg-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center h-64">
+            <p>Loading research data...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 md:py-24 bg-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center h-64">
+            <p className="text-red-500">Error: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!researchData) {
+    return null;
+  }
+
   return (
     <section className="py-16 md:py-24 bg-indigo-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,15 +71,13 @@ const ResearchSection = () => {
           >
             <div className="flex items-center mb-6">
               <div className="bg-indigo-100 p-3 rounded-full mr-4 text-indigo-600">
-                {aboutData.research.icon}
+                <BookOpen className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">
-                {aboutData.research.title}
+                {researchData.title}
               </h3>
             </div>
-            <p className="text-gray-600 mb-8">
-              {aboutData.research.description}
-            </p>
+            <p className="text-gray-600 mb-8">{researchData.description}</p>
           </motion.div>
 
           {/* Recognition Column */}
@@ -57,11 +93,11 @@ const ResearchSection = () => {
                 <AwardIcon className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">
-                {aboutData.recognition.title}
+                Recognition & Awards
               </h3>
             </div>
             <ul className="space-y-4">
-              {aboutData.recognition.items.map((item, index) => (
+              {researchData.awards?.map((item, index) => (
                 <li key={index} className="flex items-start">
                   <div className="bg-indigo-100 p-1 rounded-full mr-3 mt-1">
                     <svg
@@ -76,7 +112,7 @@ const ResearchSection = () => {
                       />
                     </svg>
                   </div>
-                  <span className="text-gray-600">{item}</span>
+                  <span className="text-gray-600">{item.award}</span>
                 </li>
               ))}
             </ul>

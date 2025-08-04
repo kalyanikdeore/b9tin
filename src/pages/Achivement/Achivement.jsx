@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Col, Button, Upload } from "antd";
-import { UploadOutlined, PlayCircleOutlined } from "@ant-design/icons";
+import { Card, Row, Col } from "antd";
 import { motion } from "framer-motion";
+import axios from "axios";
+
 import AwardAchievement from "./AwardAchievement";
 // import MediaFeatures from "./MediaFeatures";
 import CommunityImpact from "./CommunityImpact";
 import CallToAction from "./CallToAction";
-
-import axios from "axios";
 import HealthResilienceSection from "./HealthResilienceSection";
 
 const ProjectsSection = () => {
@@ -68,18 +67,14 @@ const ProjectsSection = () => {
       >
         Patients Share Their Incredible Recovery Stories
       </motion.h1>
-      {/* <p className="text-md md:text-lg text-center text-gray-600">
-        Inspiring Journeys of Recovery and Success
-      </p> */}
+
       <p className="text-center text-md font-extralight md:text-lg text-gray-700 max-w-2xl mx-auto mt-2">
         Hear from our patients as they share their incredible stories of
         resilience, healing, and transformation. Their experiences inspire hope
         and highlight the impact of our dedicated care.
       </p>
+
       {/* Stories Section */}
-      {/* <h2 className="text-xl font-semibold mt-10 text-center text-gray-600">
-        Our Patient's Stories
-      </h2> */}
       {stories.length === 0 ? (
         <div className="text-center mt-10">
           <p>No patient stories available yet.</p>
@@ -99,9 +94,16 @@ const ProjectsSection = () => {
                   className="shadow-lg rounded-lg hover:shadow-xl transition-all duration-300 p-3 h-full"
                   cover={
                     story.image ? (
+                      // <img
+                      //   src={`http://localhost:8000/uploads/${story.image}`}
+                      //   alt={story.title}
+                      //   className="w-full h-48 object-cover rounded-lg"
+                      // />
                       <img
-                        // src={story.image}
-                        src={`http://localhost:8000/storage/${story.image}`}
+                        src={
+                          story.image_url ||
+                          `http://localhost:8000/uploads/${story.image}`
+                        }
                         alt={story.title}
                         className="w-full h-48 object-cover rounded-lg"
                       />
@@ -129,10 +131,13 @@ const ProjectsSection = () => {
           ))}
         </Row>
       )}
-      {/* <MediaFeatures /> */}
+
+      {/* Additional Sections */}
       <HealthResilienceSection />
       <CommunityImpact />
       <AwardAchievement />
+      {/* <MediaFeatures /> */}
+      {/* <CallToAction /> */}
     </motion.div>
   );
 };
